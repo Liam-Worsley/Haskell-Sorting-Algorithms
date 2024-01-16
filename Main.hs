@@ -3,12 +3,12 @@ import System.IO (hFlush, stdout)
 import System.Environment (getArgs)
 import Data.List.Split (splitOn)
 import System.Console.GetOpt
-import SortingAlgorithms.BubbleSorter
-import SortingAlgorithms.InsertionSorter
-import SortingAlgorithms.MergeSorter
-import SortingAlgorithms.QuickSorter
-import SortingAlgorithms.SelectionSorter
-
+import SortingAlgorithms.BubbleSorter ( bubbleSort )
+import SortingAlgorithms.InsertionSorter ( insertionSort )
+import SortingAlgorithms.MergeSorter ( mergeSort )
+import SortingAlgorithms.QuickSorter ( quickSort )
+import SortingAlgorithms.SelectionSorter ( selectionSort )
+import Data.Time.Clock
 
 --different flags for the sorting algorithms
 data Flag = Help | Bubble | Insertion | Quick | Selection | Merge | All deriving (Show, Eq)
@@ -37,7 +37,7 @@ main = do
                     let listOfStrs = splitOn " " contents
                         listOfInts = map read listOfStrs
                     showArray listOfInts
-                    if All `elem` flags then doAllFlags listOfInts else do doRequestedFlags flags listOfInts
+                    if All `elem` flags || null flags then doAllFlags listOfInts else do doRequestedFlags flags listOfInts
 
 --displays the array
 showArray :: [Int] -> IO ()
@@ -46,34 +46,62 @@ showArray (x:xs) = do putStr (show x)
                       putStr " "
                       showArray xs
 
+
+--displays the time for the sorting algorithm
+displayTime :: UTCTime -> IO ()
+displayTime startTime = do currentTime <- getCurrentTime
+                           let diff = diffUTCTime currentTime startTime
+                           putStrLn $ "Execution Time: " ++ show diff
+
 --does all of the sorting algorithms
 doAllFlags :: [Int] -> IO ()
 doAllFlags lst = do putStr "Bubble Sort: "
-                    showArray (bubbleSort lst 0)
+                    startTimeA <- getCurrentTime
+                    showArray (bubbleSort lst)
+                    displayTime startTimeA
                     putStr "Insertion Sort: "
+                    startTimeB <- getCurrentTime
                     showArray (insertionSort lst 0)
+                    displayTime startTimeB
                     putStr "Quick Sort: "
-                    showArray (quickSort lst 0)
+                    startTimeC <- getCurrentTime
+                    showArray (quickSort lst)
+                    displayTime startTimeC
                     putStr "Selection Sort: "
+                    startTimeD <- getCurrentTime
                     showArray (selectionSort lst 0)
+                    displayTime startTimeD
                     putStr "Merge Sort: "
-                    showArray (mergeSort lst 0)
+                    startTimeE <- getCurrentTime
+                    showArray (mergeSort lst)
+                    displayTime startTimeE
+
 
 --finds the requested sorting algorithms and does them
 doRequestedFlags :: [Flag] -> [Int] -> IO ()
 doRequestedFlags [] _ =                 do putStrLn ""
 doRequestedFlags (Bubble:xs) lst =      do putStr "Bubble Sort: "
-                                           showArray (bubbleSort lst 0)
+                                           startTime <- getCurrentTime
+                                           showArray (bubbleSort lst)
+                                           displayTime startTime
                                            doRequestedFlags xs lst
 doRequestedFlags (Insertion:xs) lst =   do putStr "Insertion Sort: "
+                                           startTime <- getCurrentTime
                                            showArray (insertionSort lst 0)
+                                           displayTime startTime
                                            doRequestedFlags xs lst
 doRequestedFlags (Merge:xs) lst =       do putStr "Merge Sort: "
-                                           showArray (mergeSort lst 0)
+                                           startTime <- getCurrentTime
+                                           showArray (mergeSort lst)
+                                           displayTime startTime
                                            doRequestedFlags xs lst
 doRequestedFlags (Quick:xs) lst =       do putStr "Quick Sort: "
-                                           showArray (quickSort lst 0)
+                                           startTime <- getCurrentTime
+                                           showArray (quickSort lst)
+                                           displayTime startTime
                                            doRequestedFlags xs lst
 doRequestedFlags (Selection:xs) lst =   do putStr "Selection Sort: "
+                                           startTime <- getCurrentTime
                                            showArray (selectionSort lst 0)
+                                           displayTime startTime
                                            doRequestedFlags xs lst

@@ -4,8 +4,9 @@ module SortingAlgorithms.InsertionSorter where
 
 
 insertionSort :: [Int] -> Int -> [Int]
-insertionSort lst n = if length lst < n then lst
-                                         else let newlst = insertAt lst n in insertionSort newlst (n+1)
+insertionSort lst n = lst
+--insertionSort lst n = if length lst < n then lst
+ --                                        else let newlst = insertAt lst n in insertionSort newlst (n+1)
 
 insertAt :: [Int] -> Int -> [Int]
 insertAt lst n = if isBiggest lst n then lst else whereToPlace lst n (n-1)

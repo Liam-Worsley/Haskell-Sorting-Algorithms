@@ -19,7 +19,7 @@ sortByPartition lst n = let x = lst !! n
 
 
 splittingList :: [Int] -> Int -> ([Int],[Int],[Int]) -> ([Int],[Int],[Int])
-splittingList [] _ _= ([],[],[])
+splittingList [] _ ans = ans
 splittingList (x:xs) num (less, equal, greater)
     | x < num = let newlst = (less++[x],equal,greater) in splittingList xs num newlst
     | x == num = let newlst = (less,equal++[x],greater) in splittingList xs num newlst

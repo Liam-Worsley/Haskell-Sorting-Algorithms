@@ -32,7 +32,7 @@ main = do
             if Help `elem` flags || not (null errors)
             then putStrLn $ usageInfo "./DotsAndBoxes [options] [filename]\nOptions:" options
             else do 
-                    let fname = if null inputs then "arrayFiles/array.txt" else head inputs
+                    let fname = if null inputs then "arrayFiles/longarray.txt" else head inputs
                     contents <- readFile fname
                     let listOfStrs = splitOn " " contents
                         listOfInts = map read listOfStrs

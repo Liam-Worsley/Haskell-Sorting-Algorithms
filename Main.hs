@@ -8,6 +8,8 @@ import SortingAlgorithms.InsertionSorter ( insertionSort )
 import SortingAlgorithms.MergeSorter ( mergeSort )
 import SortingAlgorithms.QuickSorter ( quickSort )
 import SortingAlgorithms.SelectionSorter ( selectionSort )
+import SortingAlgorithms.StalinSorter ( stalinSort )
+import SortingAlgorithms.ThanosSorter ( thanosSort )
 import Data.Time.Clock
 
 --different flags for the sorting algorithms
@@ -32,7 +34,7 @@ main = do
             if Help `elem` flags || not (null errors)
             then putStrLn $ usageInfo "./DotsAndBoxes [options] [filename]\nOptions:" options
             else do 
-                    let fname = if null inputs then "arrayFiles/longarray.txt" else head inputs
+                    let fname = if null inputs then "arrayFiles/array.txt" else head inputs
                     contents <- readFile fname
                     let listOfStrs = splitOn " " contents
                         listOfInts = map read listOfStrs
@@ -69,7 +71,7 @@ doAllFlags lst = do putStr "Bubble Sort: "
                     displayTime startTimeC
                     putStr "Selection Sort: "
                     startTimeD <- getCurrentTime
-                    showArray (selectionSort lst 0)
+                    showArray (selectionSort lst)
                     displayTime startTimeD
                     putStr "Merge Sort: "
                     startTimeE <- getCurrentTime
@@ -102,6 +104,6 @@ doRequestedFlags (Quick:xs) lst =       do putStr "Quick Sort: "
                                            doRequestedFlags xs lst
 doRequestedFlags (Selection:xs) lst =   do putStr "Selection Sort: "
                                            startTime <- getCurrentTime
-                                           showArray (selectionSort lst 0)
+                                           showArray (selectionSort lst)
                                            displayTime startTime
                                            doRequestedFlags xs lst

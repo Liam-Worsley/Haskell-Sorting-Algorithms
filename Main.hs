@@ -12,17 +12,21 @@ import SortingAlgorithms.StalinSorter ( stalinSort )
 import SortingAlgorithms.ThanosSorter ( thanosSort )
 import Data.Time.Clock
 
+--TO DO: Merge, Insertion, Main
+
 --different flags for the sorting algorithms
-data Flag = Help | Bubble | Insertion | Quick | Selection | Merge | All deriving (Show, Eq)
+data Flag = Help | Bubble | Insertion | Quick | Selection | Merge | Stalin | Thanos | All deriving (Show, Eq)
 
 --options for the help menu
 options :: [OptDescr Flag]
 options = [ Option ['h'] ["help"] (NoArg Help) "Will give you this help menu. As of now, all algorithms will only sort integers."
-          , Option ['b'] ["bubble"] (NoArg Bubble) "Will run a bubble sort in O(n^2)."
-          , Option ['i'] ["insertion"] (NoArg Insertion) "Will run a insertion sort in O(n^2)."
-          , Option ['q'] ["quick"] (NoArg Quick) "Will run a quick sort in O(nlogn)."
-          , Option ['s'] ["selection"] (NoArg Selection) "Will run a selection sort in O(n^2)."
-          , Option ['m'] ["merge"] (NoArg Merge) "Will run a merge sort in O(nlogn)."
+          , Option ['b'] ["bubble"] (NoArg Bubble) "Will run a bubble sort."
+          , Option ['i'] ["insertion"] (NoArg Insertion) "Will run a insertion sort."
+          , Option ['q'] ["quick"] (NoArg Quick) "Will run a quick sort."
+          , Option ['s'] ["selection"] (NoArg Selection) "Will run a selection sort."
+          , Option ['m'] ["merge"] (NoArg Merge) "Will run a merge sort."
+          , Option ['l'] ["stalin"] (NoArg Stalin) "Will run a stalin sort."
+          , Option ['t'] ["thanos"] (NoArg Thanos) "Will run a thanos sort."
           , Option ['a'] ["all"] (NoArg All) "Will run all of the sorts."
           ]
 
@@ -77,6 +81,14 @@ doAllFlags lst = do putStr "Bubble Sort: "
                     startTimeE <- getCurrentTime
                     showArray (mergeSort lst)
                     displayTime startTimeE
+                    putStr "Stalin Sort: "
+                    startTimeF <- getCurrentTime
+                    showArray (stalinSort lst)
+                    displayTime startTimeF
+                    putStr "Thanos Sort: "
+                    startTimeG <- getCurrentTime
+                    showArray (thanosSort lst)
+                    displayTime startTimeG
 
 
 --finds the requested sorting algorithms and does them
@@ -105,5 +117,15 @@ doRequestedFlags (Quick:xs) lst =       do putStr "Quick Sort: "
 doRequestedFlags (Selection:xs) lst =   do putStr "Selection Sort: "
                                            startTime <- getCurrentTime
                                            showArray (selectionSort lst)
+                                           displayTime startTime
+                                           doRequestedFlags xs lst
+doRequestedFlags (Stalin:xs) lst =      do putStr "Stalin Sort: "
+                                           startTime <- getCurrentTime
+                                           showArray (stalinSort lst)
+                                           displayTime startTime
+                                           doRequestedFlags xs lst
+doRequestedFlags (Thanos:xs) lst =      do putStr "Thanos Sort: "
+                                           startTime <- getCurrentTime
+                                           showArray (thanosSort lst)
                                            displayTime startTime
                                            doRequestedFlags xs lst

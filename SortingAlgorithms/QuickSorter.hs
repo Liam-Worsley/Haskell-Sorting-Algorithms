@@ -15,7 +15,6 @@ sortByPartition lst n = let x = lst !! n
                             greater = getGreater newlist
                                                             in sortByPartition smaller (middleVal smaller) ++ equal ++ sortByPartition greater (middleVal greater)
 
-
 --splits the list up into a tuple of 3 different lists, those with lesser, equal, and greater values than the value we wanted to partition for
 splittingList :: [Int] -> Int -> ([Int],[Int],[Int]) -> ([Int],[Int],[Int])
 splittingList [] _ ans = ans
@@ -26,7 +25,6 @@ splittingList (x:xs) num (less, equal, greater)
 
 
 --SIMPLE HELPER FUNCTIONS
-
 --gets the index of the middle of the list
 middleVal :: [Int] -> Int
 middleVal lst = length lst `div` 2

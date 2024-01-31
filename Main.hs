@@ -12,7 +12,6 @@ import SortingAlgorithms.StalinSorter ( stalinSort )
 import SortingAlgorithms.ThanosSorter ( thanosSort )
 import Data.Time.Clock
 
---TO DO: Insertion, Main
 
 --different flags for the sorting algorithms
 data Flag = Help | Bubble | Insertion | Quick | Selection | Merge | Stalin | Thanos | All deriving (Show, Eq)

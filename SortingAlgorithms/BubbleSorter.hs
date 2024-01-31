@@ -1,8 +1,5 @@
 module SortingAlgorithms.BubbleSorter where
 
-
---bubble sort supposedly runs in O(n^2) time and O(1) space
-
 --main function, starts the firstForLoop function
 bubbleSort :: [Int] -> [Int]
 bubbleSort lst = firstForLoop lst (length lst - 1)

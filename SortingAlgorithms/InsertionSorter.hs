@@ -2,28 +2,24 @@ module SortingAlgorithms.InsertionSorter where
 
 
 
+--starts the iterator to go up the array
+insertionSort :: [Int] -> [Int]
+insertionSort lst = doIterator lst 0
 
-insertionSort :: [Int] -> Int -> [Int]
-insertionSort lst n = lst
---insertionSort lst n = if length lst < n then lst
- --                                        else let newlst = insertAt lst n in insertionSort newlst (n+1)
+--checks each pair and will move numbers back down when necessary
+doIterator :: [Int] -> Int -> [Int]
+doIterator lst n = if n >= ((length lst) - 1) then lst else let newlst = goingDown lst n in doIterator newlst (n+1)
 
-insertAt :: [Int] -> Int -> [Int]
-insertAt lst n = if isBiggest lst n then lst else whereToPlace lst n (n-1)
+--checks to switch and switches variables
+goingDown :: [Int] -> Int -> [Int]
+goingDown lst n = if n > (-1) && goingToSwap lst n then let newlst = swap lst n 0 in goingDown newlst (n-1) else lst
 
-isBiggest :: [Int] -> Int -> Bool
-isBiggest [] _ = True
-isBiggest lst@(x:xs) n
-  | x > (lst !! n) = False
-  | x == (lst !! n) = True
-  | otherwise = isBiggest xs n
+--checks to see if you should swap the nth and n+1th element in the array
+goingToSwap :: [Int] -> Int -> Bool
+goingToSwap lst n = (lst !! n) > (lst !! (n+1))
 
-whereToPlace :: [Int] -> Int -> Int -> [Int]
-whereToPlace lst n 0 = placeNum lst n 0 0
-whereToPlace lst n x = if lst !! n < lst !! x then whereToPlace lst n (x-1) else placeNum lst n x 0
-
-placeNum :: [Int] -> Int -> Int -> Int -> [Int]
-placeNum lst@(x:xs) n small iter = if iter < small then x:placeNum xs n small (iter+1) else (lst !! n):x:restOfArray xs (lst !! n)
-
-restOfArray :: [Int] -> Int -> [Int]
-restOfArray lst n = [x | x <- lst, x /= n]
+--swaps the ath and a+1th element in the array
+swap :: [Int] -> Int -> Int -> [Int]
+swap [] _ _ = []
+swap [x] _ _ = [x]
+swap (x:y:xs) a b = if a /= b then [x] ++ swap (y:xs) a (b+1) else y:x:xs 

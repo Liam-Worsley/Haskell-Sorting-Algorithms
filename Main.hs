@@ -12,7 +12,7 @@ import SortingAlgorithms.StalinSorter ( stalinSort )
 import SortingAlgorithms.ThanosSorter ( thanosSort )
 import Data.Time.Clock
 
---TO DO: Merge, Insertion, Main
+--TO DO: Insertion, Main
 
 --different flags for the sorting algorithms
 data Flag = Help | Bubble | Insertion | Quick | Selection | Merge | Stalin | Thanos | All deriving (Show, Eq)
@@ -67,7 +67,7 @@ doAllFlags lst = do putStr "Bubble Sort: "
                     displayTime startTimeA
                     putStr "Insertion Sort: "
                     startTimeB <- getCurrentTime
-                    showArray (insertionSort lst 0)
+                    showArray (insertionSort lst)
                     displayTime startTimeB
                     putStr "Quick Sort: "
                     startTimeC <- getCurrentTime
@@ -101,7 +101,7 @@ doRequestedFlags (Bubble:xs) lst =      do putStr "Bubble Sort: "
                                            doRequestedFlags xs lst
 doRequestedFlags (Insertion:xs) lst =   do putStr "Insertion Sort: "
                                            startTime <- getCurrentTime
-                                           showArray (insertionSort lst 0)
+                                           showArray (insertionSort lst)
                                            displayTime startTime
                                            doRequestedFlags xs lst
 doRequestedFlags (Merge:xs) lst =       do putStr "Merge Sort: "
